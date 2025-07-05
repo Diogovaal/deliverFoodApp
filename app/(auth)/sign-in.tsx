@@ -1,5 +1,6 @@
 import CustomButton from '@/components/CustomButton'
 import CustomInput from '@/components/CustomInput'
+import { signIn } from '@/lib/appwrite'
 import { Link, router } from 'expo-router'
 import React, { useState } from 'react'
 import { Alert, Text, View } from 'react-native'
@@ -9,13 +10,16 @@ const SignIn  = () => {
   const [form, setForm] = useState({email:'', password:''})
 
   const submit = async () => {
-    if(!form.email || !form.password) 
+    const {email, password} = form;
+    if(!email || !password) 
      return Alert.alert('Erro', 'Preencha todos os campos com email e senha validos')
 
     setSubmitting(true)
     try {
-      // Aqui você faria a chamada para o seu serviço de autenticação appwrite
-     Alert.alert('Sucesso', 'Login realizado com sucesso!')
+      await signIn({email, password})
+      
+
+     
      router.replace ('/');
     }catch (error: any) {
       Alert.alert('Erro', 'Ocorreu um erro ao tentar fazer login. Verifique suas credenciais e tente novamente.')
