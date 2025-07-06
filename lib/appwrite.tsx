@@ -6,7 +6,12 @@ export const appwriteConfig = {
     projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID!,
     Platform:"com.dc.foodordering",
     databaseId: '6869548000228e18e646',
+    bucketId: '686a9c75000ecf7ac2fb',
     userCollectionId: '686954bd0037fe0a6987',
+    categoriesCollectionId: '686a9287003d4b2aaa2d',
+    menuCollectionId: '686a9392000641bf4254',
+    customizationsCollectionId: '686a97e10036c07f1d3d',
+    menuCustomizationsCollectionId: '686a98ee00024695edb0',
    
 
 }
