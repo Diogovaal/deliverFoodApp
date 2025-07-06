@@ -1,5 +1,5 @@
-import { CreateUserParams, SignInParams } from "@/type";
-import { Account, Avatars, Client, Databases, ID, Query } from "react-native-appwrite";
+import { CreateUserParams, GetMenuParams, SignInParams } from "@/type";
+import { Account, Avatars, Client, Databases, ID, Query, Storage } from "react-native-appwrite";
 
 export const appwriteConfig = {
     endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT!,
@@ -25,6 +25,7 @@ client
 
 export const account = new Account(client);
 export const database = new Databases(client)
+export const storage = new Storage(client);
 const avatars = new Avatars(client);
 
 export const createUser = async ({name, email, password}:CreateUserParams) => {
@@ -86,6 +87,38 @@ export const getCurrentUser = async () => {
 
     }catch (e) {
         console.log(e);
+        throw new Error(e as string);
+    }
+}
+
+export const getMenu = async ({category, query}:GetMenuParams) => {
+try{
+    const queries : string[]=[];
+    if(category) {
+        queries.push(Query.equal('category', category));
+    }if(query) {
+        queries.push(Query.search('name', query));
+    }
+    const menu = await database.listDocuments(
+        appwriteConfig.databaseId,
+        appwriteConfig.menuCollectionId,
+        queries,
+    ); return menu.documents;
+
+} catch (e) {
+    throw new Error(e as string);
+}
+
+}
+
+export const getCategories = async () => {
+    try {
+        const categories = await database.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.categoriesCollectionId
+        );
+        return categories.documents;
+    } catch (e) {
         throw new Error(e as string);
     }
 }
