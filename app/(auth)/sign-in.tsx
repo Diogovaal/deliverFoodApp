@@ -1,6 +1,7 @@
 import CustomButton from '@/components/CustomButton'
 import CustomInput from '@/components/CustomInput'
 import { signIn } from '@/lib/appwrite'
+import * as Sentry from '@sentry/react-native'
 import { Link, router } from 'expo-router'
 import React, { useState } from 'react'
 import { Alert, Text, View } from 'react-native'
@@ -23,6 +24,7 @@ const SignIn  = () => {
      router.replace ('/');
     }catch (error: any) {
       Alert.alert('Erro', 'Ocorreu um erro ao tentar fazer login. Verifique suas credenciais e tente novamente.')
+      Sentry.captureEvent(error)
     }finally {
       setSubmitting(false)
     }
